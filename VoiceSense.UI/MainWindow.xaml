@@ -125,7 +125,7 @@
                         
                         <Border Background="#0B1120" CornerRadius="8" BorderBrush="#334155" BorderThickness="1">
                             <TextBox x:Name="TxtRefText" Height="100" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
-                                     Background="Transparent" Foreground="#F8FAFC" BorderThickness="0" Padding="12" FontSize="14"/>
+                                     Background="Transparent" Foreground="#F8FAFC" CaretBrush="#F8FAFC" BorderThickness="0" Padding="12" FontSize="14"/>
                         </Border>
                     </StackPanel>
                 </Grid>
@@ -147,7 +147,7 @@
                     <!-- HEIGHT is explicitly set, and it will NEVER be squeezed thanks to the outer ScrollViewer -->
                     <Border Grid.Row="1" Background="#0B1120" CornerRadius="8" BorderBrush="#334155" BorderThickness="1">
                         <TextBox x:Name="TxtInputText" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
-                                 Background="Transparent" Foreground="#F8FAFC" BorderThickness="0" Padding="12" FontSize="14"
+                                 Background="Transparent" Foreground="#F8FAFC" CaretBrush="#F8FAFC" BorderThickness="0" Padding="12" FontSize="14"
                                  Height="100" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                  Text="Hello! With this application, I can easily clone my voice using just a short sample, and have it read anything I type."/>
                     </Border>

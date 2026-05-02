@@ -31,13 +31,13 @@ namespace VoiceSense.UI
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "Audio Files|*.wav;*.mp3",
-                Title = "Referans Ses Dosyanızı Seçin"
+                Title = "Select Reference Audio File"
             };
 
             if (openFileDialog.ShowDialog() == true)
             {
                 _selectedVoicePath = openFileDialog.FileName;
-                TxtSelectedVoice.Text = $"Seçildi: {Path.GetFileName(_selectedVoicePath)}";
+                TxtSelectedVoice.Text = $"Selected: {Path.GetFileName(_selectedVoicePath)}";
                 TxtSelectedVoice.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#10B981")); // Green
             }
         }
@@ -46,19 +46,19 @@ namespace VoiceSense.UI
         {
             if (string.IsNullOrEmpty(_selectedVoicePath))
             {
-                MessageBox.Show("Lütfen önce bir ses dosyası seçin.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please select an audio file first.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(TxtInputText.Text))
             {
-                MessageBox.Show("Lütfen okunacak metni girin.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter the text to generate.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             BtnGenerate.IsEnabled = false;
             ProgressBarStatus.IsIndeterminate = true;
-            TxtStatus.Text = "Ses üretiliyor... (Bu işlem bilgisayarınızın hızına bağlı olarak biraz sürebilir)";
+            TxtStatus.Text = "Generating voice... (This may take a while depending on your hardware)";
 
             try
             {
@@ -85,26 +85,26 @@ namespace VoiceSense.UI
                     _generatedAudioPath = Path.Combine(Path.GetTempPath(), $"voicesense_{Guid.NewGuid()}.wav");
                     await File.WriteAllBytesAsync(_generatedAudioPath, responseBytes);
 
-                    TxtStatus.Text = "Ses başarıyla üretildi!";
+                    TxtStatus.Text = "Voice generated successfully!";
                     BtnPlay.IsEnabled = true;
                     BtnSave.IsEnabled = true;
                 }
                 else
                 {
                     // API çalışmıyorsa simülasyon için hata göster, ama kullanıcıyı yönlendir.
-                    TxtStatus.Text = "Hata: Arka plan yapay zeka servisi (Python API) çalışmıyor olabilir.";
-                    MessageBox.Show($"Sunucu Hatası: {response.StatusCode}\nLütfen Python API sunucusunun arka planda çalıştığından emin olun.", "Bağlantı Hatası", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TxtStatus.Text = "Error: Background AI service (Python API) might not be running.";
+                    MessageBox.Show($"Server Error: {response.StatusCode}\nPlease ensure the Python API server is running in the background.", "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (HttpRequestException)
             {
-                TxtStatus.Text = "API'ye bağlanılamadı. Python sunucusunu başlattınız mı?";
-                MessageBox.Show("Arka plan yapay zeka servisine (Python API) bağlanılamadı.\n\nLütfen Python scriptinin (api.py) çalışır durumda olduğundan emin olun.", "Bağlantı Hatası", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtStatus.Text = "Could not connect to API. Did you start the Python server?";
+                MessageBox.Show("Could not connect to the background AI service (Python API).\n\nPlease ensure the Python script (api.py) is running.", "Connection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception ex)
             {
-                TxtStatus.Text = "Beklenmeyen bir hata oluştu.";
-                MessageBox.Show(ex.Message, "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
+                TxtStatus.Text = "An unexpected error occurred.";
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -130,14 +130,14 @@ namespace VoiceSense.UI
             var saveFileDialog = new SaveFileDialog
             {
                 Filter = "WAV File|*.wav",
-                Title = "Üretilen Sesi Kaydet",
-                FileName = "UretilenSes.wav"
+                Title = "Save Generated Audio",
+                FileName = "GeneratedAudio.wav"
             };
 
             if (saveFileDialog.ShowDialog() == true)
             {
                 File.Copy(_generatedAudioPath, saveFileDialog.FileName, true);
-                MessageBox.Show("Dosya başarıyla kaydedildi!", "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("File saved successfully!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }
