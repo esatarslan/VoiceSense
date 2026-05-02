@@ -149,7 +149,7 @@
                         <TextBox x:Name="TxtInputText" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
                                  Background="Transparent" Foreground="#F8FAFC" CaretBrush="#F8FAFC" BorderThickness="0" Padding="12" FontSize="14"
                                  Height="100" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                                 Text="Hello! With this application, I can easily clone my voice using just a short sample, and have it read anything I type."/>
+                                 Text="To provide a specific book summary, please provide the title and author of the book you are interested in. Because there are thousands of books available, once you name a specific title, I can give you a concise overview including the main thesis or themes and plot points."/>
                     </Border>
                 </Grid>
             </Border>

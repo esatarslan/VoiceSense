@@ -20,3 +20,6 @@ env/
 
 # MacOS
 .DS_Store
+
+# VoiceSense Outputs
+output_audio/

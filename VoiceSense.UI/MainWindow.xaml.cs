@@ -131,7 +131,7 @@ namespace VoiceSense.UI
             {
                 Filter = "WAV File|*.wav",
                 Title = "Save Generated Audio",
-                FileName = "GeneratedAudio.wav"
+                FileName = $"VoiceSense_{DateTime.Now:yyyyMMdd_HHmmss}.wav"
             };
 
             if (saveFileDialog.ShowDialog() == true)

@@ -91,11 +91,22 @@ async def clone_voice(
             ref_audio_path, final_ref_text = preprocess_ref_audio_text(temp_ref_path, "")
             print(f"Whisper referansı anladı: '{final_ref_text}'.")
         
-        print(f"Sesi üretiyor: {text}")
-        audio_segment, final_sample_rate, _ = infer_process(
-            ref_audio_path,
+        import re as _re
+        import torchaudio as _ta
+        from f5_tts.infer.utils_infer import infer_batch_process
+
+        # Sadece cümle sonlarından böl (.!?) → virgülde bölünme olmaz
+        sentences = [s.strip() for s in _re.split(r'(?<=[.!?])\s+', text.strip()) if s.strip()]
+        if not sentences:
+            sentences = [text.strip()]
+        print(f"Sesi üretiyor ({len(sentences)} cümle): {sentences}")
+
+        ref_audio_tensor, ref_sr = _ta.load(ref_audio_path)
+
+        audio_segment, final_sample_rate, _ = next(infer_batch_process(
+            (ref_audio_tensor, ref_sr),
             final_ref_text,
-            text,
+            sentences,
             ema_model,
             vocoder,
             mel_spec_type=vocoder_name,
@@ -107,12 +118,15 @@ async def clone_voice(
             speed=speed,
             fix_duration=fix_duration,
             device=device
-        )
+        ))
         
-        output_file_path = os.path.join(output_dir, "generated.wav")
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"generated_{timestamp}.wav"
+        output_file_path = os.path.join(output_dir, filename)
         sf.write(output_file_path, audio_segment, final_sample_rate)
         
-        return FileResponse(output_file_path, media_type="audio/wav", filename="generated.wav")
+        return FileResponse(output_file_path, media_type="audio/wav", filename=filename)
         
     except Exception as e:
         print("Ses üretilirken hata:")
