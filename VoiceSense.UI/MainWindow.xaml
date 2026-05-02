@@ -1,0 +1,124 @@
+<Window x:Class="VoiceSense.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VoiceSense.UI"
+        mc:Ignorable="d"
+        Title="VoiceSense - Ses Klonlama" Height="600" Width="900" WindowStartupLocation="CenterScreen" Background="#F3F4F6">
+    
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#3B82F6"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2563EB"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#9CA3AF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="VoiceSense" FontSize="28" FontWeight="Bold" Foreground="#1F2937"/>
+            <TextBlock Text="Kendi sesinizle metinleri okutun." FontSize="14" Foreground="#6B7280" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel: Voice Selection -->
+            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" Opacity="0.05" BlurRadius="10" ShadowDepth="2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="1. Adım: Referans Ses" FontSize="18" FontWeight="SemiBold" Foreground="#374151" Margin="0,0,0,15"/>
+                    <TextBlock Text="Sesinizi taklit edebilmemiz için temiz, gürültüsüz ve yaklaşık 10-15 saniyelik bir .wav dosyası yükleyin." TextWrapping="Wrap" Foreground="#6B7280" Margin="0,0,0,20"/>
+                    
+                    <Button x:Name="BtnSelectVoice" Content="Ses Dosyası Seç (.wav)" Click="BtnSelectVoice_Click"/>
+                    
+                    <TextBlock x:Name="TxtSelectedVoice" Text="Henüz dosya seçilmedi." Foreground="#10B981" FontWeight="Medium" Margin="0,15,0,0" TextWrapping="Wrap"/>
+                    
+                    <TextBlock Text="Sesteki İngilizce Metin (Opsiyonel ama ŞİDDETLE TAVSİYE EDİLİR):" FontWeight="Medium" Foreground="#374151" Margin="0,20,0,5" TextWrapping="Wrap"/>
+                    <TextBlock Text="Yapay zekanın otomatik anlamasını (Whisper) beklemek yerine seste ne dediğinizi buraya BİREBİR yazarsanız kalite %100 artar." FontSize="11" Foreground="#6B7280" Margin="0,0,0,5" TextWrapping="Wrap"/>
+                    <TextBox x:Name="TxtRefText" Height="60" TextWrapping="Wrap" AcceptsReturn="True" BorderBrush="#D1D5DB" BorderThickness="1" Padding="5"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Right Panel: Text Input -->
+            <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="20">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" Opacity="0.05" BlurRadius="10" ShadowDepth="2"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Text="2. Adım: Okunacak Metin" FontSize="18" FontWeight="SemiBold" Foreground="#374151" Margin="0,0,0,15"/>
+                    
+                    <TextBox Grid.Row="1" x:Name="TxtInputText" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
+                             BorderBrush="#D1D5DB" BorderThickness="1" Padding="10" FontSize="15"
+                             Text="Merhaba! Bu uygulama sayesinde sadece kısa bir ses kaydımla kendi sesimi kopyalayabilir ve istediğim metni okutabilirim."/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Bottom Panel: Action & Output -->
+        <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="20" Margin="0,20,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.05" BlurRadius="10" ShadowDepth="2"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button x:Name="BtnGenerate" Grid.Column="0" Content="3. Adım: Sesi Üret" Width="200" Height="50" FontSize="16" Click="BtnGenerate_Click"/>
+                
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="20,0">
+                    <TextBlock x:Name="TxtStatus" Text="Sistem hazır." Foreground="#6B7280" Margin="0,0,0,5"/>
+                    <ProgressBar x:Name="ProgressBarStatus" Height="4" Minimum="0" Maximum="100" Value="0" Foreground="#10B981"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button x:Name="BtnPlay" Content="▶ Oynat" Width="100" Margin="0,0,10,0" Background="#10B981" Click="BtnPlay_Click" IsEnabled="False"/>
+                    <Button x:Name="BtnSave" Content="💾 Kaydet" Width="100" Background="#4B5563" Click="BtnSave_Click" IsEnabled="False"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

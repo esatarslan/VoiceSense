@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "VoiceSense.UI/1.0.0": {
+        "runtime": {
+          "VoiceSense.UI.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "VoiceSense.UI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
