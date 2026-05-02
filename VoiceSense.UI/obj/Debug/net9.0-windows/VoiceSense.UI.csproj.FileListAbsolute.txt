@@ -18,3 +18,4 @@ E:\Development\Projects\VoiceSense\VoiceSense.UI\obj\Debug\net9.0-windows\refint
 E:\Development\Projects\VoiceSense\VoiceSense.UI\obj\Debug\net9.0-windows\VoiceSense.UI.pdb
 E:\Development\Projects\VoiceSense\VoiceSense.UI\obj\Debug\net9.0-windows\VoiceSense.UI.genruntimeconfig.cache
 E:\Development\Projects\VoiceSense\VoiceSense.UI\obj\Debug\net9.0-windows\ref\VoiceSense.UI.dll
+E:\Development\Projects\VoiceSense\VoiceSense.UI\obj\Debug\net9.0-windows\VoiceSense.UI.sourcelink.json
